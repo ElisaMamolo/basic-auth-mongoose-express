@@ -51,7 +51,7 @@ router.post("/signup", (req, res, next) => {
     })
     .then((userFromDB) => {
       // console.log("Newly created user is: ", userFromDB);
-      res.redirect("/user-profile");
+      res.redirect("/userProfile");
     })
     .catch((error) => {
       if (error instanceof mongoose.Error.ValidationError) {
@@ -108,7 +108,7 @@ router.post("/login", (req, res, next) => {
 
         //******* SAVE THE USER IN THE SESSION ********//
         req.session.currentUser = user;
-        res.redirect("/user-profile");
+        res.redirect("/userProfile");
       } else {
         // if the two passwords DON'T match, render the login form again
         // and send the error message to the user
@@ -118,7 +118,7 @@ router.post("/login", (req, res, next) => {
     .catch((error) => next(error));
 });
 
-router.get("/user-profile", (req, res) => {
+router.get("/userProfile", (req, res) => {
   res.render("users/user-profile", { userInSession: req.session.currentUser });
 });
 
