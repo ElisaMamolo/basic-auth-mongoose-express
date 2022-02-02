@@ -4,11 +4,12 @@ const router = new Router();
 const mongoose = require("mongoose"); // <== has to be added
 const bcryptjs = require("bcryptjs");
 const saltRounds = 10;
+const { isLoggedIn, isLoggedOut } = require("../middelware/route-guard.js");
 
 const User = require("../models/User.model");
 
 // GET route ==> to display the signup form to users
-router.get("/signup", (req, res) => res.render("auth/signup"));
+router.get("/signup", isLoggedOut, (req, res) => res.render("auth/signup"));
 
 // POST route ==> to process form data
 router.post("/signup", (req, res, next) => {
@@ -118,7 +119,7 @@ router.post("/login", (req, res, next) => {
     .catch((error) => next(error));
 });
 
-router.get("/user-profile", (req, res) => {
+router.get("/user-profile", isLoggedIn, (req, res) => {
   res.render("users/user-profile", { userInSession: req.session.currentUser });
 });
 
